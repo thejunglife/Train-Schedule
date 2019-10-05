@@ -5,35 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
   <link rel='stylesheet' href='./assets/css/style.css'>
 </head>
 <body>
+<div class='siteName'>
+  <h1 class='title'>Train Schedule</h1>
+</div>
 
-  <h1>Train Schedule</h1>
-  <div id='curTrain'>
+<div class='dataTable' id='tableData'>
+<table class="table">
+  <h5>Current Train Schedule</h5>
+  <thead>
+    <tr>
+      <th scope="col">Train Name</th>
+      <th scope="col">Destination</th>
+      <th scope="col">Frequency (min)</th>
+      <th scope="col">Next Arrival</th>
+      <th scope="col">Minutes Away</th>
+    </tr>
+  </thead>
+  <tbody id='addTrain'>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
+
+<form role="form">
+  <h5>Add Train</h5>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Train Name</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+      placeholder="Enter email">
   </div>
-
-  <div id='addTraing'>
-    <form>
-      <label>Train Name </label><br>
-      <input><br>
-      <label>Destination </label><br>
-      <input><br>
-      <label>First Train Time </label><br>
-      <input><br>
-      <label>Frequency(min)</label><br>
-      <input> <br>
-      <button>Submit</button>
-    </form>
-    
-
+  <div class="form-group">
+    <label for="exampleInputPassword1">Desitnation</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
   </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">First Train Time (HH:mm - military time)</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Frequency (min)</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
   
 
 
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <script src='./assets/javascript/app.js'></script>
 </body>
 </html>
