@@ -1,3 +1,7 @@
+h5 {
+  background-color: gray;
+  color: white;
+}
 .siteName {
   height: 200px;
   background-color: grey;
@@ -7,7 +11,9 @@
 }
 .title {
   padding: 50px;
+  color: white;
 }
+
 
   .dataTable {
     margin: 100px;
