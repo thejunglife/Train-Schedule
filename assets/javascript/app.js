@@ -1,38 +1,37 @@
-/*
-  * When adding trains, administrators should be able to submit the following:
-    * Train Name
-    * Destination
-    * First Train Time -- in military time
-    * Frequency -- in minutes
-  * Code this app to calculate when the next train will arrive; this should be relative to the current time.
-  * Users from many different machines must be able to view same train times.
-  */
 
-// will need to add fireBase
-// need a function or click event to accept the data from the form
-// takes that data and stores it in to firebase
-// need a function that takes data and creates the data dynamically to HTML
+  // Your web app's Firebase configuration
+const firebaseConfig = {
+ apiKey: 'AIzaSyBuASw4iulitrX_92Zs0cer2e00HGIgcCU',
+  authDomain: 'paul-cc9aa.firebaseapp.com',
+  databaseURL: 'https://paul-cc9aa.firebaseio.com',
+  projectId: 'paul-cc9aa',
+  storageBucket: 'paul-cc9aa.appspot.com',
+  messagingSenderId: '854269964466',
+  appId: '1:854269964466:web:e95de63e2603f769bb99ab',
+  measurementId: 'G-LZHLC7WCPC'
+}
+// Initialize Firebase
+ firebase.initializeApp(firebaseConfig)
 
+const db = firebase.firestore()
 
 // grabs the values from Add train form
 document.getElementById('submitBtn').addEventListener('click', e => {
   e.preventDefault()
   e.target.id  
 
-  const train = document.getElementById('trainName').value
-  const destination = document.getElementById('destination').value
-  const frequency = document.getElementById('frequency').value
-  const trainTime = document.getElementById('trainTime').value
+  let trainName = document.getElementById('trainName').value
+  let destination = document.getElementById('destination').value
+  let frequency = document.getElementById('frequency').value
+  let trainTime = document.getElementById('trainTime').value
+    
   const timeNow = moment().unix()
-  
+  const originals = moment(trainTime, 'kk:mm').unix()
 
-let originals = moment(trainTime, 'kk:mm').unix()
 
   // pass original date in seconds (unix) and rate in minutes
   const getNext = (original, rate) => {
-
     const rateInSeconds = rate * 60
-
     const now = moment().unix()
 
     let lapse = original
@@ -43,29 +42,46 @@ let originals = moment(trainTime, 'kk:mm').unix()
 
     return moment((lapse + rate), 'X').format('hh:mm a')
   }
+  // function to get the nextArr
+  const nextArr = getNext(originals, parseInt(frequency))
+  // to get value of nextArr in seconds
+  const nextSec = moment(nextArr, 'hh:mm a').unix()
+  // takes nextSec to calculate the minutes away
+  const minutesAway = moment(nextSec - timeNow, 'X').format('mm')
 
-  let nextArr = getNext(originals, parseInt(frequency))
-  let nextSec = moment(nextArr, 'hh:mm a').unix()
-  let minutesAway = moment(nextSec - timeNow, 'X').format('mm')
+  const train = {
+   trainName: document.getElementById('trainName').value,
+   destination: document.getElementById('destination').value,
+   frequency: document.getElementById('frequency').value,
+   trainTime: document.getElementById('trainTime').value,
+   nextArrival: nextArr,
+   minutesAwy: minutesAway
+}
 
- 
+db.collection('trainScedule')
+.doc(train.trainName)
+.set(train)
 
-  // function to create td to Current train schedule
-  const createRow = function () {
-    let oldRow = document.getElementById('addTrain')
-    let newRow = oldRow.insertRow()
-    newRow.innerHTML = `
-    <td>${train}</td>
+// clear out the form
+  document.getElementById('trainName').value = ''
+  document.getElementById('destination').value = ''
+  document.getElementById('frequency').value = ''
+  document.getElementById('trainTime').value = ''
+})
+
+db.collection('trainScedule')
+  .onSnapshot(({ docs }) => {
+    docs.forEach(doc => {
+      const { trainName, destination, frequency, trainTime, nextArrival, minutesAwy } = doc.data()
+      const oldRow = document.getElementById('addTrain')
+      const newRow = oldRow.insertRow()
+      newRow.setAttribute('id', 'display')
+      newRow.innerHTML = `
+    <td>${trainName}</td>
     <td>${destination}</td>
     <td>${frequency}</td>
-    <td>${nextArr}</td>
-    <td>${minutesAway}</td>
+    <td>${nextArrival}</td>
+    <td>${minutesAwy}</td>
     `
-  }
-  createRow()
-
-})
-// pass original date in seconds (unix) and rate in minutes
-// function to calculate 
-// first train time minus
-
+    })
+  })
