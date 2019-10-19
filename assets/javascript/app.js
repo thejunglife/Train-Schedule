@@ -71,17 +71,18 @@ db.collection('trainScedule')
 
 db.collection('trainScedule')
   .onSnapshot(({ docs }) => {
+    document.getElementById('addTrain').innerHTML = ''
     docs.forEach(doc => {
       const { trainName, destination, frequency, trainTime, nextArrival, minutesAwy } = doc.data()
-      const oldRow = document.getElementById('addTrain')
-      const newRow = oldRow.insertRow()
-      newRow.setAttribute('id', 'display')
-      newRow.innerHTML = `
+      const addRow = document.createElement('tr')
+      addRow.innerHTML =
+      `
     <td>${trainName}</td>
     <td>${destination}</td>
     <td>${frequency}</td>
     <td>${nextArrival}</td>
     <td>${minutesAwy}</td>
     `
+      document.getElementById('addTrain').append(addRow)
     })
   })
